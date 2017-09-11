@@ -8,7 +8,13 @@ import {
 import { StackNavigator } from 'react-navigation';
 import { VictoryBar, VictoryPie } from "victory-native";
 
+import data1 from './data/data.json';
+
 class BarScreen extends React.Component {
+    Constructorn()
+    {
+        
+    }
     static navigationOptions = {title: 'Bar'};
     render() {
         const { navigate } = this.props.navigation;
