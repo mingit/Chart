@@ -9,7 +9,7 @@ import {
         ScrollView
 } from 'react-native';
 import { StackNavigator, TabNavigator } from 'react-navigation';
-import { VictoryBar, VictoryPie } from "victory-native";
+import { VictoryBar, VictoryPie, VictoryGroup, VictoryStack } from "victory-native";
 
 import ordersJson from './data/data.json';
 
@@ -52,10 +52,8 @@ scrollEnabled: true,
         const { navigate } = this.props.navigation;
         var colors = ["red", "orange", "gold", "blue", "cyan", "green", "black", "purple", "brown", "navy", "orchid", "grey", "magenta", "wheat"];
 
-        var x = 5;
         var label = 0;
         var grossAmoutForBar = ordersJson.orders.map(function(item) {
-                x += 5;
                 if (label + 1 <= colors.length)
                 {
                 color  = colors[label];
@@ -66,17 +64,15 @@ scrollEnabled: true,
 
                 label += 1;
                 return {
-x: x,
+x: label,
 y: item.GrossAmount,
 label: item.ProductId,
 fill: color
 };
 });
 
-x = 5;
 label = 0;
 var netAmountForBar = ordersJson.orders.map(function(item) {
-        x += 5;
         if (label + 1 <= colors.length)
         {
         color  = colors[label];
@@ -87,17 +83,15 @@ var netAmountForBar = ordersJson.orders.map(function(item) {
 
         label += 1;
         return {
-x: x,
+x: label,
 y: item.NetAmount,
 label: item.ProductId,
 fill: color
 };
 });
 
-x = 5;
 label = 0;
 var taxAmountForBar = ordersJson.orders.map(function(item) {
-        x += 5;
         if (label + 1 <= colors.length)
         {
         color  = colors[label];
@@ -108,7 +102,7 @@ var taxAmountForBar = ordersJson.orders.map(function(item) {
 
         label += 1;
         return {
-x: x,
+x: label,
 y: item.TaxAmount,
 label: item.ProductId,
 fill: color
@@ -116,10 +110,8 @@ fill: color
 });
 
 
-x = 5;
 label = 0;
 var quantityForBar = ordersJson.orders.map(function(item) {
-        x += 5;
         if (label + 1 <= colors.length)
         {
         color  = colors[label];
@@ -130,15 +122,77 @@ var quantityForBar = ordersJson.orders.map(function(item) {
 
         label += 1;
         return {
-x: x,
+x: label,
 y: item.Quantity,
 label: item.ProductId,
 fill: color
 };
 });
 
+label = 0;
+var grossAmoutForStackBar = ordersJson.orders.map(function(item) {
+        label += 1;
+        return {
+x: label,
+y: item.GrossAmount
+};
+});
+
+label = 0;
+var netAmountForStackBar = ordersJson.orders.map(function(item) {
+        label += 1;
+        return {
+x: label,
+y: item.NetAmount
+};
+});
+
+label = 0;
+var taxAmountForStackBar = ordersJson.orders.map(function(item) {
+        label += 1;
+        return {
+x: label,
+y: item.TaxAmount
+};
+});
+
 return (
         <ScrollView contentContainerStyle={styles.container} scrollEnabled={this.state.scrollEnabled}>
+
+        <VictoryGroup
+              width={300}
+              height={375}
+              offset={20}
+              colorScale={"qualitative"}
+            >
+              <VictoryBar
+                data={grossAmoutForBar}
+              />
+              <VictoryBar
+                data={netAmountForBar}
+              />
+              <VictoryBar
+                data={taxAmountForBar}
+              />
+        </VictoryGroup>
+
+<Text style={styles.text}>{"VictoryStack"}</Text>
+        <VictoryStack
+                  width={700}
+                  height={375}
+                  colorScale={"qualitative"}
+                >
+        <VictoryBar
+            data={grossAmoutForStackBar}
+          />
+          <VictoryBar
+            data={netAmountForStackBar}
+          />
+          <VictoryBar
+            data={taxAmountForStackBar}
+          />
+        </VictoryStack>
+
 
         <Text style={styles.text}>{"GrossAmount"}</Text>
         <VictoryBar
